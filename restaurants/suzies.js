@@ -13,7 +13,7 @@ function extractMenu(page) {
     const menu = [];
 
     const $date = $('h2').filter(function() {
-        return $(this).text().replace(/\s/g, '').includes(getFormattedDate());
+        return $(this).text().replace(/\s/gm, '').includes(getFormattedDate());
     });
     const $row = $date.closest('.item');
     $row.find('.uk-grid-small').each(function() {

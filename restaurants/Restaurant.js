@@ -11,10 +11,13 @@ class Restaurant {
     getMenu() {
         return new Promise((resolve, reject) => {
             (async () => {
-                const response = await axios.get(this.url);
-                const menu = this.extractMenu(response.data);
-                const menuFormatted = this.formatMenu(menu);
-                resolve(menuFormatted);
+                try {
+                    const response = await axios.get(this.url);
+                    const menu = this.extractMenu(response.data);
+                    resolve(this.formatMenu(menu));
+                } catch (err) {
+                    reject(this.formatError(err));
+                }
             })();
         });
     }
@@ -23,6 +26,13 @@ class Restaurant {
         return {
             restaurant: this.name.toUpperCase(),
             menu: menu.map(item => purifyString(item))
+        }
+    }
+
+    formatError(error) {
+        return {
+            restaurant: this.name.toUpperCase(),
+            error: error.message
         }
     }
 }

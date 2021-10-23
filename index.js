@@ -1,3 +1,6 @@
+const fs = require('fs');
+const getFormattedDate = require('./utils/getFormattedDate');
+
 const restaurants = [
     require('./restaurants/pivniceUCapa'),
     require('./restaurants/suzies'),
@@ -5,11 +8,23 @@ const restaurants = [
 ];
 
 async function getMenus() {
-    const menus = await Promise.all(
+    const promises = await Promise.allSettled(
         restaurants.map(restaurant => restaurant.getMenu())
     );
 
+    const menus = promises.map(promise => promise.value || promise.reason);
+
+    console.log(`Menus for ${getFormattedDate()}:`);
     console.log(menus);
+
+    fs.writeFile(
+        './output/todayMenus.json',
+        JSON.stringify(menus, null, 4),
+        (err) => {
+            if (err) throw err;
+            console.log('You can find the menus in output/todayMenus.json')
+        }
+    );
 }
 
 getMenus();

@@ -13,10 +13,10 @@ function extractMenu(page) {
     const menu = [];
 
     const $date = $('.menicka .nadpis').filter(function() {
-        return $(this).text().replace(/\s/g, '').includes(getFormattedDate());
+        return $(this).text().replace(/\s/gm, '').includes(getFormattedDate());
     });
     const $row = $date.closest('.menicka');
-    $row.find('.polozka, .polevka, .jidlo').each(function() {
+    $row.find('.polevka, .jidlo').each(function() {
         menu.push($(this).text());
     });
 

@@ -5,7 +5,7 @@ const getFormattedDate = require('../utils/getFormattedDate');
 const pivniceUCapa = new Restaurant(
     'Pivnice u Čápa',
     'https://www.pivnice-ucapa.cz/denni-menu.php',
-    extractMenu,
+    extractMenu
 );
 
 function extractMenu(page) {
@@ -13,7 +13,7 @@ function extractMenu(page) {
     const menu = [];
 
     const $date = $('.date').filter(function() {
-        return $(this).text().replace(/\s/g, '').includes(getFormattedDate());
+        return $(this).text().replace(/\s/gm, '').includes(getFormattedDate());
     });
     const $row = $date.closest('.row');
     $row.find('.row').each(function() {

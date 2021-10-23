@@ -3,7 +3,7 @@ function purifyString(string) {
         return '';
     }
 
-    return string.trim().replace(/\n/g, '').replace(/\s{2,}/gm, ' ');
+    return string.replace(/\n/g, '').replace(/\s{2,}/gm, ' ').trim();
 }
 
 module.exports = purifyString;
