@@ -1,21 +1,15 @@
-const pivniceUCapa = require('./scrapers/pivniceUCapa');
-const suzies = require('./scrapers/suzies');
-const veroni = require('./scrapers/veroni');
+const restaurants = [
+    require('./restaurants/pivniceUCapa'),
+    require('./restaurants/suzies'),
+    require('./restaurants/veroni')
+];
 
 async function getMenus() {
-    const [uCapaResp, suzieResp, veroniResp] = await Promise.all([
-        pivniceUCapa.scrape(),
-        suzies.scrape(),
-        veroni.scrape()
-    ]);
+    const menus = await Promise.all(
+        restaurants.map(restaurant => restaurant.getMenu())
+    );
 
-    console.log(pivniceUCapa.extractMenu(uCapaResp.data));
-    console.log(suzies.extractMenu(suzieResp.data));
-    console.log(veroni.extractMenu(veroniResp.data));
+    console.log(menus);
 }
 
 getMenus();
-
-
-// https://stackoverflow.com/questions/43036229/is-it-an-anti-pattern-to-use-async-await-inside-of-a-new-promise-constructor
-// https://stackoverflow.com/questions/57204895/how-to-fire-multiple-api-calls-asynchronously-at-the-same-time/57205276

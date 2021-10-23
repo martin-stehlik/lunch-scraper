@@ -9,22 +9,18 @@ const pivniceUCapa = new Restaurant(
 );
 
 function extractMenu(page) {
-    const menus = [];
     const $ = cheerio.load(page);
+    const menu = [];
 
-    const date = getFormattedDate();
-
-    const $dateEl = $('h2').filter(function() {
-        return $(this).text().replace(/\s/g, '').includes(date);
+    const $date = $('h2').filter(function() {
+        return $(this).text().replace(/\s/g, '').includes(getFormattedDate());
+    });
+    const $row = $date.closest('.item');
+    $row.find('.uk-grid-small').each(function() {
+        menu.push($(this).text());
     });
 
-    const $row = $dateEl.closest('.item');
-
-    $row.find('.uk-width-expand').each(function() {
-        menus.push($(this).text().trim().replace(/\n/g, '').replace(/\s{2,}/gm, ' '));
-    });
-
-    return menus;
+    return menu;
 }
 
 module.exports = pivniceUCapa;

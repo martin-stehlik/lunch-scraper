@@ -9,22 +9,18 @@ const pivniceUCapa = new Restaurant(
 );
 
 function extractMenu(page) {
-    const menus = [];
     const $ = cheerio.load(page);
+    const menu = [];
 
-    const date = getFormattedDate();
-
-    const $dateEl = $('.menicka .nadpis').filter(function() {
-        return $(this).text().replace(/\s/g, '').includes(date);
+    const $date = $('.menicka .nadpis').filter(function() {
+        return $(this).text().replace(/\s/g, '').includes(getFormattedDate());
+    });
+    const $row = $date.closest('.menicka');
+    $row.find('.polozka, .polevka, .jidlo').each(function() {
+        menu.push($(this).text());
     });
 
-    const $row = $dateEl.closest('.menicka');
-
-    $row.find('.polozka').each(function() {
-        menus.push($(this).text());
-    });
-
-    return menus;
+    return menu;
 }
 
 module.exports = pivniceUCapa;

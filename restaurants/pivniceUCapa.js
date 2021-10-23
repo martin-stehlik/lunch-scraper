@@ -5,26 +5,22 @@ const getFormattedDate = require('../utils/getFormattedDate');
 const pivniceUCapa = new Restaurant(
     'Pivnice u Čápa',
     'https://www.pivnice-ucapa.cz/denni-menu.php',
-    extractMenu
+    extractMenu,
 );
 
 function extractMenu(page) {
-    const menus = [];
     const $ = cheerio.load(page);
+    const menu = [];
 
-    const date = getFormattedDate();
-
-    const $dateEl = $('.date').filter(function() {
-        return $(this).text().replace(/\s/g, '').includes(date);
+    const $date = $('.date').filter(function() {
+        return $(this).text().replace(/\s/g, '').includes(getFormattedDate());
+    });
+    const $row = $date.closest('.row');
+    $row.find('.row').each(function() {
+        menu.push($(this).text());
     });
 
-    const $row = $dateEl.closest('.row');
-
-    $row.find('.polevka, .food').each(function() {
-        menus.push($(this).text());
-    });
-
-    return menus;
+    return menu;
 }
 
 module.exports = pivniceUCapa;
