@@ -2,7 +2,7 @@ const cheerio = require('cheerio');
 const Restaurant = require('./Restaurant');
 const getFormattedDate = require('../utils/getFormattedDate');
 
-const pivniceUCapa = new Restaurant(
+const veroni = new Restaurant(
     'VERONI coffee & chocolate',
     'https://www.menicka.cz/4921-veroni-coffee--chocolate.html',
     extractMenu
@@ -23,4 +23,4 @@ function extractMenu(page) {
     return menu;
 }
 
-module.exports = pivniceUCapa;
+module.exports = veroni;

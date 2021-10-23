@@ -1,4 +1,5 @@
 const axios = require('axios');
+const iconv = require('iconv-lite');
 const purifyString = require('../utils/purifyString');
 
 class Restaurant {
@@ -12,7 +13,21 @@ class Restaurant {
         return new Promise((resolve, reject) => {
             (async () => {
                 try {
-                    const response = await axios.get(this.url);
+                    const response = await axios.request({
+                        method: 'GET',
+                        url: this.url,
+                        responseType: 'arraybuffer',
+                        reponseEncoding: 'binary'
+                    });
+
+                    // Handle encodings
+                    const ctype = response.headers['content-type'];
+                    if (ctype.includes('charset=windows-1250')) {
+                        response.data = iconv.decode(response.data, 'win1250');
+                    } else {
+                        response.data = iconv.decode(response.data, 'utf-8');
+                    }
+
                     const menu = this.extractMenu(response.data);
                     resolve(this.formatMenu(menu));
                 } catch (err) {

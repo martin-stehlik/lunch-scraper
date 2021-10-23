@@ -2,7 +2,7 @@ const cheerio = require('cheerio');
 const Restaurant = require('./Restaurant');
 const getFormattedDate = require('../utils/getFormattedDate');
 
-const pivniceUCapa = new Restaurant(
+const suzies = new Restaurant(
     'Suzie\'s',
     'http://www.suzies.cz/poledni-menu.html',
     extractMenu
@@ -23,4 +23,4 @@ function extractMenu(page) {
     return menu;
 }
 
-module.exports = pivniceUCapa;
+module.exports = suzies;
