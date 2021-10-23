@@ -1,6 +1,5 @@
 # lunch-scraper
-Small utilitity for scaping lunch menus for current day.
-Easily extensible by adding other restaurant scrapers.
+Small utilitity for scaping lunch menus for the current day. Easily extensible (see `restaurants` folder).
 
 ## HOW TO USE
 - `npm install`
