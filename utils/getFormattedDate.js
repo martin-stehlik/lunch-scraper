@@ -1,8 +1,6 @@
-function getFormattedDate(withSpace = false) {
+function getFormattedDate() {
     const date = new Date();
-    const space = withSpace ? ' ' : '';
-
-    return `${date.getDate()}.${space}${date.getMonth() + 1}.${space}${date.getFullYear()}`;
+    return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
 }
 
 module.exports = getFormattedDate;

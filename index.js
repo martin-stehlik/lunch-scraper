@@ -1,31 +1,21 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-const getFormattedDate = require('./utils/getFormattedDate');
+const pivniceUCapa = require('./scrapers/pivniceUCapa');
+const suzies = require('./scrapers/suzies');
+const veroni = require('./scrapers/veroni');
 
-const menus = [];
+async function getMenus() {
+    const [uCapaResp, suzieResp, veroniResp] = await Promise.all([
+        pivniceUCapa.scrape(),
+        suzies.scrape(),
+        veroni.scrape()
+    ]);
 
-async function getHtml() {
-    const response = await axios.get('https://www.pivnice-ucapa.cz/denni-menu.php');
-    const $ = cheerio.load(response.data);
-
-    const date = getFormattedDate(true);
-
-    const $dateEl = $(`.date:contains(${date})`);
-
-    const $row = $dateEl.closest('.row');
-    $row.find('.polevka, .food').each(function() {
-        menus.push($(this).text());
-    });
-
-    console.log(menus);
-
+    console.log(pivniceUCapa.extractMenu(uCapaResp.data));
+    console.log(suzies.extractMenu(suzieResp.data));
+    console.log(veroni.extractMenu(veroniResp.data));
 }
 
-getHtml();
+getMenus();
 
 
-/*
-https://www.pivnice-ucapa.cz/denni-menu.php
-http://www.suzies.cz/poledni-menu.html
-https://www.menicka.cz/4921-veroni-coffee--chocolate.html
-*/
+// https://stackoverflow.com/questions/43036229/is-it-an-anti-pattern-to-use-async-await-inside-of-a-new-promise-constructor
+// https://stackoverflow.com/questions/57204895/how-to-fire-multiple-api-calls-asynchronously-at-the-same-time/57205276
