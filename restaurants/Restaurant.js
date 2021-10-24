@@ -9,7 +9,7 @@ class Restaurant {
         this.extractMenu = extractMenu;
     }
 
-    getMenu() {
+    scrapeMenu() {
         return new Promise((resolve, reject) => {
             (async () => {
                 try {

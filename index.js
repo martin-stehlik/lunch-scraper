@@ -7,9 +7,9 @@ const restaurants = [
     require('./restaurants/veroni')
 ];
 
-async function getMenus() {
+async function scrapeAllMenus() {
     const promises = await Promise.allSettled(
-        restaurants.map(restaurant => restaurant.getMenu())
+        restaurants.map(restaurant => restaurant.scrapeMenu())
     );
 
     const menus = promises.map(promise => promise.value || promise.reason);
@@ -27,4 +27,4 @@ async function getMenus() {
     );
 }
 
-getMenus();
+scrapeAllMenus();
